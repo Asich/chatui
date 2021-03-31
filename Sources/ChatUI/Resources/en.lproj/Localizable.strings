@@ -1,0 +1,12 @@
+"chat_bot.message.title" = "Chat bot";
+"chat_bot.message.type" = "Bot";
+"chat_bot.message.asistent.type" = "Operator";
+"chat_bot.message.asistent.title" = "Operator";
+"chat_bot.navigation.title" = "Chat";
+"chat_bot.navigation.finish" = "Finish";
+"chat_bot.input_bar.placeholder" = "Enter your message";
+"chat_bot.today" = "Today";
+"chat_bot.yesterday" = "Yesterday";
+"chat_bot.message.status.sending" = "Sending";
+"chat_bot.message.status.sent" = "Sent";
+"chat_bot.message.status.failure" = "Failure";

@@ -1,0 +1,12 @@
+"chat_bot.message.title" = "izi";
+"chat_bot.message.type" = "Чат-бот";
+"chat_bot.message.asistent.type" = "Оператор";
+"chat_bot.message.asistent.title" = "izi";
+"chat_bot.navigation.title" = "Чат";
+"chat_bot.navigation.finish" = "Завершить";
+"chat_bot.input_bar.placeholder" = "Введите ваше сообщение";
+"chat_bot.today" = "Сегодня";
+"chat_bot.yesterday" = "Вчера";
+"chat_bot.message.status.sending" = "Отправка";
+"chat_bot.message.status.sent" = "Отправлено";
+"chat_bot.message.status.failure" = "Не отправлено";
