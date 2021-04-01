@@ -131,20 +131,12 @@ public final class ChatBotActionCellViewModel: Codable {
     }
     
     private func setCorrectButtonsHeights() {
-        for (i, buttonViewModel) in buttonViewModels.enumerated() {
-            if i % 2 == 0 && i < buttonViewModels.count - 1 {
-                let nextButtonViewModel = buttonViewModels[i + 1]
-                if buttonViewModel.getSize().height < nextButtonViewModel.getSize().height {
-                        buttonViewModel.updateButton(size: nextButtonViewModel.getSize())
-                }
-                
-                buttonsViewHeight += buttonViewModel.getSize().height
-            } else if buttonViewModels.count == 1 {
-                buttonsViewHeight += buttonViewModel.getSize().height
-            }
+        let highestButton = buttonViewModels.max { $0.getSize().height < $1.getSize().height }
+        guard let correctHeight = highestButton?.getSize().height else { return }
+        if buttonViewModels.count == 1 {
+            buttonsViewHeight = correctHeight
+        } else {
+            buttonsViewHeight = CGFloat(buttonViewModels.count - 1) * correctHeight
         }
-        
-        buttonsViewHeight += CGFloat(buttonViewModels.count - 1) * 8
     }
-    
 }
