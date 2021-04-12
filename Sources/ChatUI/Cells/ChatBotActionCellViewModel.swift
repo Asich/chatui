@@ -21,7 +21,7 @@ public final class ChatBotActionCellViewModel: Codable {
         return sender.type
     }
     
-    var text: String {
+    public var text: String {
         response.response
     }
 
@@ -29,7 +29,7 @@ public final class ChatBotActionCellViewModel: Codable {
         return UIImage(nameInModule: "operator")
     }
 
-    var message: NSMutableAttributedString? {
+    public var message: NSMutableAttributedString? {
         let modifiedFont = String(format: "<span style=\"font-family: '-apple-system', 'SFUIDisplay-Regular'; font-size: \(16)\">%@</span>", response.response)
         guard let data = modifiedFont.data(using: .utf16) else { return nil }
         do {
