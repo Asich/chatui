@@ -28,6 +28,17 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
     public init(configuration: ChatViewConfigurationProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.configuration = configuration
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(didEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil)
+    }
+
+    @objc func didEnterForeground() {
+        DispatchQueue.main.async { [weak self] in
+            self?.messagesCollectionView.reloadData()
+            self?.messagesCollectionView.messagesCollectionViewFlowLayout.invalidateLayout()
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -52,6 +63,7 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
         super.viewDidLoad()
         messagesCollectionView.backgroundColor = configuration?.backgroundColor
         messagesCollectionView.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8) // this property causes harmless but annoying logs in console, comment this line on development process
+        messagesCollectionView.isPrefetchingEnabled = false
         navigationItem.titleView = navigationTitleView
         presenter?.viewDidLoad()
         configureMessageInputBar()
