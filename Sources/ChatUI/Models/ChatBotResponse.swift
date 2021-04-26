@@ -15,12 +15,14 @@ public struct ChatBotResponse: Codable {
     public let sendDate: Date
     public let buttons: [ChatActionButtonModel]
     private let createdAt: Int
+    public var assessParam: AssessmentParameter?
     
     enum CodingKeys: String, CodingKey {
         case response
         case operatorConnected
         case createdDate = "createdAt"
         case buttons
+        case assessParam
     }
 
     public init(from decoder: Decoder) throws {
@@ -30,6 +32,11 @@ public struct ChatBotResponse: Codable {
         createdAt = try container.decode(Int.self, forKey: .createdDate)
         sendDate = Date(timeIntervalSince1970: TimeInterval(createdAt/1000))
         buttons = try container.decode([ChatActionButtonModel].self, forKey: .buttons)
+        if container.contains(.assessParam) {
+            assessParam = try container.decode(AssessmentParameter.self, forKey: .assessParam)
+        } else {
+            assessParam = .empty
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -38,5 +45,6 @@ public struct ChatBotResponse: Codable {
         try container.encode(operatorConnected, forKey: .operatorConnected)
         try container.encode(createdAt, forKey: .createdDate)
         try container.encode(buttons, forKey: .buttons)
+        try container.encode(assessParam?.rawValue, forKey: .assessParam)
     }
 }

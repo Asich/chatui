@@ -52,7 +52,7 @@ class ChatBotActionCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 0
         label.textColor = .black
-        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+//        label.setContentHuggingPriority(.defaultLow, for: .vertical)
         return label
     }()
     

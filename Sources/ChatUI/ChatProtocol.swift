@@ -27,6 +27,7 @@ public protocol ChatPresenterMessageDataSourceProtocol: class {
     func viewDidLoad()
     func viewWillAppear()
     func viewWillDisappear()
+    func viewWillDeinit()
     func getCurrentSender() -> SenderType
     func getMessageForItem(at indexPath: IndexPath) -> MessageType
     func getNumberOfSections() -> Int

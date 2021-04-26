@@ -122,11 +122,14 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
     public func reloadUI() {
         DispatchQueue.main.async {
             self.messagesCollectionView.reloadData()
+            self.scrollToBottom(animated: true)
         }
-        /// This delay is needed to prevent layout мигание
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.messagesCollectionView.scrollToBottom(animated: true)
-        }
+    }
+
+    public func scrollToBottom(animated: Bool = false) {
+        let lastSection = messagesCollectionView.numberOfSections - 1
+        let lastItem = numberOfItems(inSection: lastSection, in: messagesCollectionView) - 1
+        messagesCollectionView.scrollToItem(at: IndexPath(item: lastItem, section: lastSection), at: .centeredVertically, animated: animated)
     }
 
     public func showActivityIndicator() {
@@ -141,6 +144,7 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
     }
 
     deinit {
+        presenter?.viewWillDeinit()
         print("CHAT DEINIT")
     }
 
@@ -204,8 +208,8 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.originalImage] as? UIImage else { return }
-        presenter?.imageDidPick(image: image)
         dismiss(animated: true, completion: nil)
+        presenter?.imageDidPick(image: image)
     }
 
     public func imagePickerControllerDidCancel(_: UIImagePickerController) {

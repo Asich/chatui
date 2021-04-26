@@ -30,15 +30,11 @@ public final class ChatBotActionCellViewModel: Codable {
     }
 
     public var message: NSMutableAttributedString? {
-        let modifiedFont = String(format: "<span style=\"font-family: '-apple-system', 'SFUIDisplay-Regular'; font-size: \(16)\">%@</span>", response.response)
-        guard let data = modifiedFont.data(using: .utf16) else { return nil }
-        do {
-            let string = try NSMutableAttributedString(data: data, options: [.documentType: NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
-            string.removeAttribute(.paragraphStyle, range: NSRange(location: 0, length: string.length))
-            return string
-        } catch {
-            return nil
-        }
+        let resultString = response.response.dropFirstAndLastParagraphTags()
+        
+        let attributedString = try? NSMutableAttributedString(HTMLString: "<span>\(resultString)</span>", font: UIFont.systemFont(ofSize: 16))
+        return attributedString
+        
     }
     
     var height: CGFloat = 100
@@ -101,7 +97,7 @@ public final class ChatBotActionCellViewModel: Codable {
     }
     
     func setLabelHeight() {
-        guard let message = getHTMLMessage() else { return }
+        guard let message = message else { return }
         let width: CGFloat = (UIScreen.main.bounds.width * 4) / 5
         height = labelSize(for: message, considering: width).height
     }
@@ -115,19 +111,6 @@ public final class ChatBotActionCellViewModel: Codable {
                                                                             context: nil)
 
         return adjustedRect.size
-    }
-    
-    func getHTMLMessage() -> NSMutableAttributedString? {
-        let replacingResponse = response.response.replacingOccurrences(of: " ", with: "a")
-        let modifiedFont = String(format: "<span style=\"font-family: '-apple-system', 'HelveticaNeue'; font-size: \(16)\">%@</span>", replacingResponse)
-        guard let data = modifiedFont.data(using: .utf16) else { return nil }
-        do {
-            let string = try NSMutableAttributedString(data: data, options: [.documentType: NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
-            string.removeAttribute(.paragraphStyle, range: NSRange(location: 0, length: string.length))
-            return string
-        } catch {
-            return nil
-        }
     }
     
     private func setCorrectButtonsHeights() {

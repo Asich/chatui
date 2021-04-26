@@ -15,4 +15,21 @@ extension String {
         let str = NSLocalizedString(self, bundle: bundle, comment: "")
         return str
     }
+    
+    public func dropFirstAndLastParagraphTags() -> String {
+        let prefix = "<p>"
+        let suffix = "</p>"
+        let newLine = "\n"
+        var string = self
+        if string.hasPrefix(prefix) {
+            string = String(string.dropFirst(prefix.count))
+        }
+        if string.hasSuffix(newLine) {
+            string = String(string.dropLast(newLine.count))
+        }
+        if string.hasSuffix(suffix) {
+            string = String(string.dropLast(suffix.count))
+        }
+        return string
+    }
 }
