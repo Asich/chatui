@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 
 public final class ChatBotActionCellViewModel: Codable {
-
-    var messageHeight: CGFloat?
     
     var senderName: String {
         return sender.displayName
@@ -98,28 +96,36 @@ public final class ChatBotActionCellViewModel: Codable {
     
     func setLabelHeight() {
         guard let message = message else { return }
-        let width: CGFloat = (UIScreen.main.bounds.width * 4) / 5
-        height = labelSize(for: message, considering: width).height
+        let width: CGFloat = ((UIScreen.main.bounds.width * 4) / 5)
+        height = getLabelSize(for: message, considering: width).height
     }
     
-    private func labelSize(for attributedText: NSAttributedString, considering maxWidth: CGFloat) -> CGSize {
-        let constraintBox = CGSize(width: maxWidth, height: .greatestFiniteMagnitude)
-        
-        let adjustedRect: CGRect
-        adjustedRect = attributedText.boundingRect(with: constraintBox,
-                                                                            options: [.usesLineFragmentOrigin, .usesFontLeading],
-                                                                            context: nil)
-
-        return adjustedRect.size
-    }
+    private func getLabelSize(for attributedText: NSAttributedString, considering maxWidth: CGFloat) -> CGSize {
+            let label = UILabel()
+            label.frame = CGRect(x: 0, y: 0, width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
+            label.numberOfLines = 0
+            label.lineBreakMode = .byWordWrapping
+            label.attributedText = attributedText
+            return label.sizeThatFits(label.frame.size)
+        }
     
     private func setCorrectButtonsHeights() {
-        let highestButton = buttonViewModels.max { $0.getSize().height < $1.getSize().height }
-        guard let correctHeight = highestButton?.getSize().height else { return }
-        if buttonViewModels.count == 1 {
-            buttonsViewHeight = correctHeight
-        } else {
-            buttonsViewHeight = CGFloat(buttonViewModels.count - 1) * correctHeight
+        for (i, buttonViewModel) in buttonViewModels.enumerated() {
+            if i % 2 == 0 {
+                guard i >= 0, i < buttonViewModels.count - 1 else {
+                    buttonsViewHeight += buttonViewModel.getSize().height
+                    return
+                }
+                let nextButtonViewModel = buttonViewModels[i + 1]
+                if buttonViewModel.getSize().height < nextButtonViewModel.getSize().height {
+                    buttonViewModel.updateButton(size: nextButtonViewModel.getSize())
+                }
+                
+                buttonsViewHeight += buttonViewModel.getSize().height
+            }
         }
+           
+        buttonsViewHeight += CGFloat((buttonViewModels.count - 1) * 8)
     }
+
 }

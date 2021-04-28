@@ -89,6 +89,15 @@ extension ChatViewController: MessagesLayoutDelegate {
 }
 
 extension ChatViewController: MessagesDisplayDelegate {
+    public func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        switch message.kind {
+        case .photo(let image):
+            guard let image = image as? ImageMediaItem else { return }
+            imageView.image = UIImage(data: image.data)
+        default:
+            return
+        }
+    }
     public func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         guard presenter != nil else { return .bubbleTail(.bottomLeft, .curved) }
         return .bubbleTail(isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft, .curved)

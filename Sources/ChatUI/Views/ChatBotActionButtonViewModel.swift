@@ -34,32 +34,13 @@ public class ChatBotActionButtonViewModel {
     }
     
     private func labelSize(for attributedText: NSAttributedString, considering maxWidth: CGFloat) -> CGSize {
-        let constraintBox = CGSize(width: maxWidth, height: .greatestFiniteMagnitude)
-        
-        let adjustedRect: CGRect
-        if #available(iOS 13, *) {
-            let fullRange = NSRange(0..<attributedText.length)
-            var isPartiallyAttributed = false
-            attributedText.enumerateAttributes(in: fullRange) { value, range, stop in
-                if !NSEqualRanges(fullRange, range) {
-                    isPartiallyAttributed = true
-                    stop.pointee = true
-                }
-            }
-            var options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-            if isPartiallyAttributed {
-                options.formUnion(NSStringDrawingOptions.usesDeviceMetrics)
-            }
-            adjustedRect = attributedText.boundingRect(with: constraintBox,
-                                                                            options: options,
-                                                                            context: nil)
-        } else {
-            adjustedRect = attributedText.boundingRect(with: constraintBox,
-                                                                            options: [.usesLineFragmentOrigin, .usesFontLeading],
-                                                                            context: nil)
-        }
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.attributedText = attributedText
+        return label.sizeThatFits(label.frame.size)
 
-        return adjustedRect.size
     }
     
     private func setButtonSize() {

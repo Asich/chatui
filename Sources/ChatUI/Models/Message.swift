@@ -43,6 +43,9 @@ public struct Message: MessageType {
             self.kind = .custom(viewModel)
         case .user(let text):
             self.kind = .text(text)
+        case .image(let data):
+            let image = ImageMediaItem(data: data)
+            self.kind = .photo(image)
         default:
             kind = .text("")
         }
@@ -59,6 +62,7 @@ extension Message: Equatable {
 enum ChatMessageKind {
     case bot(viewModel: ChatBotActionCellViewModel)
     case user(text: String)
+    case image(data: Data)
 }
 
 extension ChatMessageKind: Codable {
@@ -82,6 +86,9 @@ extension ChatMessageKind: Codable {
         case 1:
             let text = try container.decode(String.self, forKey: .associatedValue)
             self = .user(text: text)
+        case 2:
+            let data = try container.decode(Data.self, forKey: .associatedValue)
+            self = .image(data: data)
         default:
             throw CodingError.unknownValue
         }
@@ -96,6 +103,9 @@ extension ChatMessageKind: Codable {
         case .user(let text):
             try container.encode(1, forKey: .rawValue)
             try container.encode(text, forKey: .associatedValue)
+        case .image(let data):
+            try container.encode(2, forKey: .rawValue)
+            try container.encode(data, forKey: .associatedValue)
         }
     }
 }
@@ -131,8 +141,12 @@ public struct ChatBotMessage {
             }
             
             kind = .bot(viewModel: viewModel)
-        case .photo:
-            kind = .user(text: "image.jpg")
+        case .photo(let image):
+            guard let image = image as? ImageMediaItem else {
+                kind = nil
+                return
+            }
+            kind = .image(data: image.data)
         default:
             kind = nil
         }
