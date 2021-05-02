@@ -120,7 +120,7 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
 
     /// This function is called when user sends message and only visible cells are reloaded
     public func reloadUI() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async(flags: [.barrier]) {
             self.messagesCollectionView.reloadData()
             self.scrollToBottom(animated: true)
         }
