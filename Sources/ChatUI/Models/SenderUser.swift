@@ -30,7 +30,7 @@ public struct SenderUser: SenderType, Equatable, Codable {
             case .answeringPerson:
                 return "chat_bot.message.asistent.title".localized
             case .currentSender:
-                return "Я"
+                return "chat_bot.message.me".localized
             }
         }
         
@@ -41,7 +41,7 @@ public struct SenderUser: SenderType, Equatable, Codable {
             case .answeringPerson:
                 return "chat_bot.message.asistent.type".localized
             case .currentSender:
-                return "Я"
+                return "chat_bot.message.me".localized
             }
         }
     }

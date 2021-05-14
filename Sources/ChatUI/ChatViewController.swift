@@ -18,6 +18,15 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
     lazy var navigationTitleView = LoadingNavigationTitleView(title: configuration?.navigationTitleLoadingText)
     lazy var imagePicker = UIImagePickerController()
     lazy var messagesLoadingIndicator = UIActivityIndicatorView(style: .gray)
+    
+    lazy var emptyView: UILabel = {
+       let label = UILabel()
+        label.text = configuration?.emptyViewText
+        label.textAlignment = .center
+        label.textColor = .gray
+        return label
+    }()
+    
     lazy var closeButtonIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -35,9 +44,13 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
     }
 
     @objc func didEnterForeground() {
-        DispatchQueue.main.async { [weak self] in
-            self?.messagesCollectionView.reloadData()
-            self?.messagesCollectionView.messagesCollectionViewFlowLayout.invalidateLayout()
+        if #available(iOS 13, *) {
+            print("not invalidating")
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.messagesCollectionView.reloadData()
+                self?.messagesCollectionView.messagesCollectionViewFlowLayout.invalidateLayout()
+            }
         }
     }
 
@@ -61,6 +74,7 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
         messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: layout)
         messagesCollectionView.messagesCollectionViewFlowLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         super.viewDidLoad()
+        messagesCollectionView.backgroundView = emptyView
         messagesCollectionView.backgroundColor = configuration?.backgroundColor
         messagesCollectionView.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8) // this property causes harmless but annoying logs in console, comment this line on development process
         messagesCollectionView.isPrefetchingEnabled = false
@@ -107,6 +121,10 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
         }
     }
 
+    func hideEmptyView() {
+        messagesCollectionView.backgroundView = nil
+    }
+
     /// This function is called when chat messages are loaded for the first time and all cells are reloaded
     public func chatDidLoad() {
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
@@ -120,7 +138,7 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
 
     /// This function is called when user sends message and only visible cells are reloaded
     public func reloadUI() {
-        DispatchQueue.main.async(flags: [.barrier]) {
+        DispatchQueue.main.async {
             self.messagesCollectionView.reloadData()
             self.scrollToBottom(animated: true)
         }

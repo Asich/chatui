@@ -14,6 +14,7 @@ public protocol ChatViewConfigurationProtocol {
     var navigationTitleText: String? { get }
     var navigationTitleLoadingText: String? { get }
     var navigationButtonText: String? { get }
+    var emptyViewText: String? { get }
     var cellConfiguration: ChatViewCellConfigurationProtocol? { get }
     var dateLabelText: DateLabel?  { get }
     var sendButtonImage: SendButtonImage? { get }
@@ -28,6 +29,7 @@ extension ChatViewConfigurationProtocol {
     public var navigationTitleText: String? { return "Чат" }
     public var navigationTitleLoadingText: String? { return "Соединение" }
     public var navigationButtonText: String? { return "Завершить" }
+    public var emptyViewText: String? { return "Сообщений нет" }
     public var cellConfiguration: ChatViewCellConfigurationProtocol? { return DefaultCellConfiguration() }
     public var dateLabelText: DateLabel? { return DateLabel(today: "Сегодня",
                                                             yesterday: "Вчера") }

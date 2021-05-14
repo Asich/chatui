@@ -43,8 +43,11 @@ extension ChatViewController: MessagesDataSource {
     }
     
     public func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        guard let presenter = presenter else { return 0 }
-        return presenter.getNumberOfSections()
+        guard let numberOfSections = presenter?.getNumberOfSections() else { return 0 }
+        if numberOfSections > 0 {
+            hideEmptyView()
+        }
+        return numberOfSections
     }
 
     public func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {

@@ -2,6 +2,7 @@
 "chat_bot.message.type" = "Чат-бот";
 "chat_bot.message.asistent.type" = "Оператор";
 "chat_bot.message.asistent.title" = "izi";
+"chat_bot.message.me" = "Ты";
 "chat_bot.navigation.title" = "Чат";
 "chat_bot.navigation.finish" = "Завершить";
 "chat_bot.input_bar.placeholder" = "Введите ваше сообщение";

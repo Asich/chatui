@@ -11,7 +11,7 @@ import UIKit
 class ChatSpacer: UIView {
     
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 5, height: 1)
+        return CGSize(width: (UIScreen.main.bounds.width * 4) / 10 - 12, height: 1)
     }
     
     override init(frame: CGRect) {

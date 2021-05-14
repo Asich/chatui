@@ -1,7 +1,8 @@
-"chat_bot.message.title" = "Chat bot";
+"chat_bot.message.title" = "izi";
 "chat_bot.message.type" = "Bot";
-"chat_bot.message.asistent.type" = "Operator";
+"chat_bot.message.asistent.type" = "izi";
 "chat_bot.message.asistent.title" = "Operator";
+"chat_bot.message.me" = "You";
 "chat_bot.navigation.title" = "Chat";
 "chat_bot.navigation.finish" = "Finish";
 "chat_bot.input_bar.placeholder" = "Enter your message";
