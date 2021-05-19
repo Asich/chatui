@@ -13,6 +13,7 @@ public protocol ChatViewProtocol: class {
     var presenter: ChatPresenterMessageDataSourceProtocol? { get set }
     func chatDidLoad()
     func reloadUI()
+    func updateMessage(index: Int)
     func showEndChatButton()
     func hideEndChatButton()
     func showAttachButton()

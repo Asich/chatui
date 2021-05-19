@@ -38,12 +38,12 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
         super.init(nibName: nil, bundle: nil)
         self.configuration = configuration
         NotificationCenter.default.addObserver(self,
-            selector: #selector(didEnterForeground),
+            selector: #selector(willEnterForeground),
             name: UIApplication.willEnterForegroundNotification,
             object: nil)
     }
 
-    @objc func didEnterForeground() {
+    @objc func willEnterForeground() {
         if #available(iOS 13, *) {
             print("not invalidating")
         } else {
@@ -138,9 +138,24 @@ public class ChatViewController: MessagesViewController, ChatViewProtocol {
 
     /// This function is called when user sends message and only visible cells are reloaded
     public func reloadUI() {
-        DispatchQueue.main.async {
-            self.messagesCollectionView.reloadData()
-            self.scrollToBottom(animated: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let presenter = self?.presenter else { return }
+            self?.messagesCollectionView.performBatchUpdates({
+                self?.messagesCollectionView.insertSections([presenter.getNumberOfSections() - 1])
+            if presenter.getNumberOfSections() >= 2 {
+                self?.messagesCollectionView.reloadSections([presenter.getNumberOfSections() - 2])
+            }
+        }, completion: { [weak self] _ in
+                self?.messagesCollectionView.scrollToBottom(animated: true)
+        })
+        }
+    }
+    
+    public func updateMessage(index: Int) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messagesCollectionView.performBatchUpdates({
+                self?.messagesCollectionView.reloadItems(at: [IndexPath(item: 0, section: index)])
+            })
         }
     }
 
