@@ -75,7 +75,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     public func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         switch message.kind {
         case .text:
-            return configuration?.messagesTextColor ?? .black
+            return configuration?.cellConfiguration?.textColor ?? .black
         default:
             return .black
         }
@@ -84,7 +84,7 @@ extension ChatViewController: MessagesLayoutDelegate {
     public func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         switch message.kind {
         case .text:
-            return .veryLightBlue
+            return .userMessageBG
         default:
             return .veryLightBlue
         }

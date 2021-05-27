@@ -72,4 +72,18 @@ extension UIColor {
     class var veryLightBlue: UIColor {
         return UIColor(hex: "#E4F3FF")
     }
+    
+    class var userMessageBG: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return #colorLiteral(red: 0.1462543607, green: 0.1466053426, blue: 0.1569623351, alpha: 1)
+                } else {
+                    return UIColor(hex: "#E4F3FF")
+                }
+            }
+        } else {
+            return UIColor(hex: "#E4F3FF")
+        }
+    }
 }

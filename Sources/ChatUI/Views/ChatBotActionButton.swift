@@ -30,6 +30,16 @@ class ChatBotActionButton: UIButton {
         super.init(frame: frame)
     }
     
+    
+    override var isHighlighted: Bool {
+        didSet {
+            alpha = 0.5
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                self.alpha = 1
+            }
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
