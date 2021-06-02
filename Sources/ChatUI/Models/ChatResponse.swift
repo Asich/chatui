@@ -16,4 +16,5 @@ public enum ChatActionType: String, Codable {
     case deliveryStatus = "deliveryStatus"
     case botResponse = "botResponse"
     case closeOperatorConnection = "closeOperatorConnection"
+    case operatorConnectionStatusChanged = "operatorConnectionStatusChanged"
 }

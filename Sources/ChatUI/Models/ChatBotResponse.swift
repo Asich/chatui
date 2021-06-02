@@ -16,6 +16,7 @@ public struct ChatBotResponse: Codable {
     public let buttons: [ChatActionButtonModel]
     private let createdAt: Int
     public var assessParam: AssessmentParameter?
+    public var hidden: String?
     
     enum CodingKeys: String, CodingKey {
         case response
@@ -23,6 +24,7 @@ public struct ChatBotResponse: Codable {
         case createdDate = "createdAt"
         case buttons
         case assessParam
+        case hidden
     }
 
     public init(from decoder: Decoder) throws {
@@ -37,6 +39,12 @@ public struct ChatBotResponse: Codable {
         } else {
             assessParam = .empty
         }
+        if container.contains(.hidden) {
+            hidden = try container.decode(String.self, forKey: .hidden)
+        } else {
+            hidden = "false"
+        }
+//        hidden = try container.decode(String.self, forKey: .hidden)
     }
     
     public func encode(to encoder: Encoder) throws {
