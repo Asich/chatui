@@ -164,7 +164,7 @@ extension ChatViewController: MessagesDisplayDelegate {
         }
     }
     
-    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+    public func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
         return [.url]
     }
 }
