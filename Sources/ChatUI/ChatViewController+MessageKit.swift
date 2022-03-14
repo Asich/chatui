@@ -163,6 +163,10 @@ extension ChatViewController: MessagesDisplayDelegate {
             return footer
         }
     }
+    
+    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+        return [.url]
+    }
 }
 
 // MARK: Input bar configuration
