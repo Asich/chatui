@@ -56,3 +56,13 @@ extension String {
         return attributedString
     }
 }
+
+extension UIColor {
+    static var iziLabel: UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor.label
+        } else {
+            return UIColor.black
+        }
+    }
+}
