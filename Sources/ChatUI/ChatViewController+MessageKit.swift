@@ -138,10 +138,9 @@ extension ChatViewController: MessagesDisplayDelegate {
     // MARK: Footer
     public func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
         guard let presenter = presenter else { return .zero }
-        guard presenter.getNumberOfSections() - 1 == section else { return .zero }
         let indexPath = IndexPath(row: 0, section: section)
-        let lastMessage = presenter.getMessageForItem(at: indexPath)
-        switch lastMessage.kind {
+        let message = presenter.getMessageForItem(at: indexPath)
+        switch message.kind {
         case .custom(let viewModel):
             guard let viewModel = viewModel as? ChatBotActionCellViewModel else { return .zero }
             let height = viewModel.buttonsViewHeight
@@ -163,6 +162,10 @@ extension ChatViewController: MessagesDisplayDelegate {
         default:
             return footer
         }
+    }
+    
+    public func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+        return [.url]
     }
 }
 
