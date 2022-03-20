@@ -32,4 +32,8 @@ extension String {
         }
         return string
     }
+    
+    var chatHtmlString: String {
+        return String(format: "<span style=\"font-family: '-apple-system', 'SF Pro Display'; font-weight: regular; font-color: white; font-size: 16\">%@</span>", self)
+    }
 }
