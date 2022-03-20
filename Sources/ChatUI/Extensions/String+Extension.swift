@@ -36,4 +36,22 @@ extension String {
     var chatHtmlString: String {
         return String(format: "<span style=\"font-family: '-apple-system', 'SF Pro Display'; font-weight: regular; font-color: white; font-size: 16\">%@</span>", self)
     }
+    
+    var htmlToAttributedString: NSAttributedString? {
+        defaultHtmlToAttributedString()
+    }
+
+    func defaultHtmlToAttributedString(textColor: UIColor = UIColor.iziLabel) -> NSAttributedString? {
+        guard let htmlData = NSString(string: self).data(using: String.Encoding.unicode.rawValue) else { return nil }
+        let options = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html]
+        let attributedString = try? NSMutableAttributedString(data: htmlData, options: options, documentAttributes: nil)
+
+        guard let string = attributedString?.string else {
+            return attributedString
+        }
+        let nsString = NSString(string: string)
+        let nsRange = nsString.range(of: string)
+        attributedString?.addAttribute(NSAttributedString.Key.foregroundColor, value: textColor, range: nsRange)
+        return attributedString
+    }
 }
