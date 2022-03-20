@@ -101,13 +101,10 @@ public final class ChatBotActionCellViewModel: Codable {
     }
     
     private func getLabelSize(for attributedText: NSAttributedString, considering maxWidth: CGFloat) -> CGSize {
-            let label = UILabel()
-            label.frame = CGRect(x: 0, y: 0, width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
-            label.numberOfLines = 0
-            label.lineBreakMode = .byWordWrapping
-            label.attributedText = attributedText
-            return label.sizeThatFits(label.frame.size)
-        }
+        let size = CGSize(width: maxWidth - 32, height: CGFloat.greatestFiniteMagnitude)
+        let newSize = attributedText.boundingRect(with: size, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size
+        return newSize
+    }
     
     private func setCorrectButtonsHeights() {
         for (i, buttonViewModel) in buttonViewModels.enumerated() {
