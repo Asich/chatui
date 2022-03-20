@@ -47,12 +47,16 @@ class ChatBotActionCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private var messageLabel: UILabel = {
-        let label = UILabel()
+    private var messageLabel: UITextView = {
+        let label = UITextView()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 0
         label.textColor = .black
-//        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        label.isScrollEnabled = false
+        label.dataDetectorTypes = .link
+        label.isEditable = false        
+        label.textContainer.lineFragmentPadding = CGFloat(0.0)
+        label.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        label.contentInset = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: 0)
         return label
     }()
     
@@ -71,7 +75,7 @@ class ChatBotActionCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         setupSubviews()
     }
-    
+
     private func setupSubviews() {
         self.layer.cornerRadius = 8
         backgroundColor = .clear
@@ -120,8 +124,10 @@ class ChatBotActionCollectionViewCell: UICollectionViewCell {
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.top.equalTo(userTypeLabel.snp.bottom).offset(8)
-            make.bottom.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview()
         }
+        
+        messageLabel.backgroundColor = .yellow
     }
     
     override func prepareForReuse() {
@@ -138,8 +144,12 @@ class ChatBotActionCollectionViewCell: UICollectionViewCell {
             self.viewModel = viewModel
             contentContainer.backgroundColor = cellConfiguration?.backgroundColor
             userNameLabel.textColor = cellConfiguration?.textColor
-//            messageLabel.text = viewModel.text
-            configureMessageLabelColor(message: viewModel.message, configuration: cellConfiguration)
+            messageLabel.backgroundColor = cellConfiguration?.backgroundColor
+
+            if let messageText = viewModel.response.response.chatHtmlString.htmlToAttributedString as? NSMutableAttributedString {
+                configureMessageLabelColor(message: messageText , configuration: cellConfiguration)
+            }
+            
             if message.sender.senderId == SenderUser.SenderUserType.bot.rawValue {
                 avatarImageView.image = cellConfiguration?.botImage
                 userNameLabel.text = cellConfiguration?.botMessageTitleText
@@ -160,7 +170,7 @@ class ChatBotActionCollectionViewCell: UICollectionViewCell {
     }
 }
 
-@objc protocol ChatBotActionDelegate: class {
+@objc protocol ChatBotActionDelegate: AnyObject {
     
     func actionDidPress(sender: UIButton)
 }
