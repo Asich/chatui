@@ -6,26 +6,17 @@
         "repositoryURL": "https://github.com/nathantannar4/InputBarAccessoryView",
         "state": {
           "branch": null,
-          "revision": "74cffa877905146325396c31060cc2bda5ba6f2d",
-          "version": "4.3.3"
+          "revision": "2843b4454cfb6de5b4d1e5939fef2dd6257b69ee",
+          "version": "5.5.0"
         }
       },
       {
         "package": "MessageKit",
-        "repositoryURL": "https://github.com/ainurb/MessageKit.git",
-        "state": {
-          "branch": "ios_10",
-          "revision": "9b2bdf895e9c7211245c1dd45c712106b577fbac",
-          "version": null
-        }
-      },
-      {
-        "package": "RxSwift",
-        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "repositoryURL": "https://github.com/MessageKit/MessageKit",
         "state": {
           "branch": null,
-          "revision": "254617dd7fae0c45319ba5fbea435bf4d0e15b5d",
-          "version": "5.1.2"
+          "revision": "84236d91ac5783e3ecbefc15b82d854476720115",
+          "version": "3.8.0"
         }
       },
       {
